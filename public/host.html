@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raise Your Hand — Host</title>
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="host.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">Raise Your Hand</div>
+    <div class="status-pills">
+      <div class="pill" id="connectionPill">Connecting…</div>
+      <div class="pill pill-count">
+        <span id="participantCount">0</span> connected
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="question-panel">
+      <div class="progress" id="progress">Question 1</div>
+      <h1 class="question-text" id="questionText">Loading…</h1>
+
+      <div class="results" id="results"></div>
+
+      <div class="controls">
+        <button id="resetBtn" class="btn btn-maroon">Reset</button>
+        <button id="nextBtn" class="btn btn-teal">Next Question →</button>
+      </div>
+    </div>
+
+    <div class="join-panel">
+      <div class="join-label">Scan to join</div>
+      <img id="qrImage" class="qr-image" alt="QR code to join the poll" />
+      <div class="join-url" id="joinUrl">Loading link…</div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="host.js"></script>
+</body>
+</html>

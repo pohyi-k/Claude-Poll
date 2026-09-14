@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Raise Your Hand — Vote</title>
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="participant.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="progress" id="progress">Question 1</div>
+    </div>
+
+    <h1 class="question-text" id="questionText">Connecting…</h1>
+
+    <div class="options" id="options"></div>
+
+    <div class="confirm" id="confirm" hidden>✓ Your response was registered</div>
+    <div class="connection-note" id="connectionNote" hidden>Reconnecting…</div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="participant.js"></script>
+</body>
+</html>

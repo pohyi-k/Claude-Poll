@@ -1,0 +1,17 @@
+{
+  "name": "raise-your-hand-poll",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Live 'Raise Your Hand' polling app for in-person sessions — host screen + phone participant screen, real-time results.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.7.5"
+  }
+}

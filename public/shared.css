@@ -1,0 +1,35 @@
+:root {
+  --cream: #EDE7DD;
+  --cream-panel: #F7F3EB;
+  --ink: #2B2620;
+  --ink-soft: #5B5347;
+  --teal: #1F6F6B;
+  --teal-dark: #16514E;
+  --maroon: #7A2E2E;
+  --maroon-dark: #5E2222;
+  --olive: #6B7A3D;
+  --olive-dark: #525E2F;
+  --border: #DBD3C3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+button:disabled {
+  cursor: default;
+}
