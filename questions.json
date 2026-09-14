@@ -1,17 +1,17 @@
 [
   {
     "id": "q1",
-    "text": "You've used an AI tool at work THIS WEEK",
+    "text": "Have you used an AI tool at work this week?",
     "options": ["Yes", "No"]
   },
   {
     "id": "q2",
-    "text": "You've never opened Claude AI before",
+    "text": "Have you opened Claude AI before?",
     "options": ["Yes", "No"]
   },
   {
     "id": "q3",
-    "text": "You're currently subscribed to Claude AI Pro",
+    "text": "Are you currently subscribed to Claude AI Pro (the paid plan)?",
     "options": ["Yes", "No"]
   }
 ]
