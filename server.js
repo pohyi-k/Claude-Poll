@@ -59,6 +59,12 @@ const io = new Server(server);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// The bare root URL is what people actually click (Render's URL, a QR
+// scan landing page, etc.) — send it to the participant screen, since
+// that's who the public link is really for.
+app.get('/', (req, res) => res.redirect('/participant.html'));
+app.get('/host', (req, res) => res.redirect('/host.html'));
+
 // Server-side QR code for the participant join link, based on however
 // the app is currently being reached (works for localhost, LAN IP, or
 // a public deployed domain — no hardcoding needed).
