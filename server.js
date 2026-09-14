@@ -20,35 +20,64 @@ if (!Array.isArray(questions) || questions.length === 0) {
 // ---- In-memory state (single live session, reset on server restart) ----
 let state = {
   currentIndex: 0,
-  // voters[qIndex] = { clientId: optionIndex }
-  voters: questions.map(() => ({}))
+  // answers[qIndex] = { clientId: answer }
+  // answer is an optionIndex (number) for "yesno" questions,
+  // or a normalized word/phrase (string) for "wordcloud" questions.
+  answers: questions.map(() => ({}))
 };
 
 // clientId -> most recent socket.id, so we can tell "still connected"
 const participants = new Map();
 
+// Keeps word-cloud submissions short and groups near-duplicates together
+// (trim, collapse whitespace, cap to 3 words / 40 chars, lowercase).
+function normalizeWordSubmission(raw) {
+  if (typeof raw !== 'string') return null;
+  let s = raw.trim().replace(/\s+/g, ' ');
+  if (!s) return null;
+  s = s.split(' ').slice(0, 3).join(' ');
+  if (s.length > 40) s = s.slice(0, 40).trim();
+  return s.toLowerCase();
+}
+
+function displayWord(normalized) {
+  return normalized.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 function getResults(qIndex) {
   const q = questions[qIndex];
-  const voters = state.voters[qIndex];
+  const answers = state.answers[qIndex];
+
+  if (q.type === 'wordcloud') {
+    const counts = new Map();
+    Object.values(answers).forEach((word) => {
+      counts.set(word, (counts.get(word) || 0) + 1);
+    });
+    const words = [...counts.entries()]
+      .map(([text, count]) => ({ text: displayWord(text), count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 60);
+    return { words, total: Object.keys(answers).length };
+  }
+
   const counts = q.options.map(() => 0);
-  Object.values(voters).forEach((optIdx) => {
+  Object.values(answers).forEach((optIdx) => {
     if (counts[optIdx] !== undefined) counts[optIdx]++;
   });
-  const total = Object.keys(voters).length;
-  return { counts, total };
+  return { counts, total: Object.keys(answers).length };
 }
 
 function currentStatePayload(clientId, role) {
-  const voters = state.voters[state.currentIndex];
+  const answers = state.answers[state.currentIndex];
   return {
     currentIndex: state.currentIndex,
     totalQuestions: questions.length,
     question: questions[state.currentIndex],
     results: getResults(state.currentIndex),
     participantCount: participants.size,
-    yourVote:
+    yourAnswer:
       role === 'participant' && clientId !== undefined
-        ? voters[clientId]
+        ? answers[clientId]
         : undefined
   };
 }
@@ -82,10 +111,10 @@ app.get('/api/qr', async (req, res) => {
   }
 });
 
-// Every connected socket gets its OWN view of state (their own vote status
-// matters for their UI), so broadcasts are sent per-socket rather than as
-// one io.emit — otherwise a generic broadcast would wipe out the voter's
-// "already voted" status right after they tap.
+// Every connected socket gets its OWN view of state (their own answer
+// status matters for their UI), so broadcasts are sent per-socket rather
+// than as one io.emit — otherwise a generic broadcast would wipe out the
+// participant's "already answered" status right after they submit.
 function broadcastState() {
   for (const [, s] of io.sockets.sockets) {
     s.emit('state', currentStatePayload(s.data.clientId, s.data.role));
@@ -108,14 +137,22 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('vote', ({ clientId, optionIndex }) => {
-    if (!clientId || typeof optionIndex !== 'number') return;
-    const voters = state.voters[state.currentIndex];
-    if (voters[clientId] !== undefined) return; // no double voting
+  socket.on('vote', ({ clientId, optionIndex, text }) => {
+    if (!clientId) return;
+    const answers = state.answers[state.currentIndex];
+    if (answers[clientId] !== undefined) return; // no double-answering
     const q = questions[state.currentIndex];
-    if (optionIndex < 0 || optionIndex >= q.options.length) return;
 
-    voters[clientId] = optionIndex;
+    if (q.type === 'wordcloud') {
+      const normalized = normalizeWordSubmission(text);
+      if (!normalized) return;
+      answers[clientId] = normalized;
+    } else {
+      if (typeof optionIndex !== 'number') return;
+      if (optionIndex < 0 || optionIndex >= q.options.length) return;
+      answers[clientId] = optionIndex;
+    }
+
     broadcastState();
   });
 
@@ -128,7 +165,7 @@ io.on('connection', (socket) => {
 
   socket.on('hostReset', () => {
     state.currentIndex = 0;
-    state.voters = questions.map(() => ({}));
+    state.answers = questions.map(() => ({}));
     broadcastState();
   });
 
@@ -146,7 +183,7 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, '0.0.0.0', () => {
   console.log('\n============================================');
-  console.log('  Raise Your Hand — live poll server running');
+  console.log('  Icebreaker Poll — live server running');
   console.log('============================================');
   console.log(`\n  Host screen (open this on your laptop):`);
   console.log(`    http://localhost:${PORT}/host.html`);

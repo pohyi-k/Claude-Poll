@@ -33,3 +33,15 @@ button {
 button:disabled {
   cursor: default;
 }
+
+.accent-0 { color: var(--teal); }
+.accent-1 { color: var(--maroon); }
+.accent-2 { color: var(--olive); }
+.accent-3 { color: #A57F2C; }
+
+/* Author rules like `.results { display: flex }` would otherwise beat the
+   browser's default [hidden] styling, since normal author CSS always wins
+   over UA styles regardless of specificity — this makes hidden absolute. */
+[hidden] {
+  display: none !important;
+}

@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raise Your Hand — Host</title>
+<title>Icebreaker Poll — Host</title>
 <link rel="stylesheet" href="shared.css">
 <link rel="stylesheet" href="host.css">
 </head>
 <body>
   <div class="topbar">
-    <div class="brand">Raise Your Hand</div>
+    <div class="brand">🎉 Icebreaker Poll</div>
     <div class="status-pills">
       <div class="pill" id="connectionPill">Connecting…</div>
       <div class="pill pill-count">
-        <span id="participantCount">0</span> connected
+        👥 <span id="participantCount">0</span> in the room
       </div>
     </div>
   </div>
@@ -25,9 +25,12 @@
 
       <div class="results" id="results"></div>
 
+      <div class="wordcloud" id="wordCloud" hidden></div>
+      <div class="wordcloud-total" id="wordCloudTotal" hidden></div>
+
       <div class="controls">
-        <button id="resetBtn" class="btn btn-maroon">Reset</button>
-        <button id="nextBtn" class="btn btn-teal">Next Question →</button>
+        <button id="resetBtn" class="btn btn-maroon">🔄 Reset</button>
+        <button id="nextBtn" class="btn btn-teal">Next Question 🚀</button>
       </div>
     </div>
 

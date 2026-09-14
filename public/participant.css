@@ -77,6 +77,55 @@ body {
   outline-offset: 3px;
 }
 
+.word-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.word-hint {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: -8px 0 0;
+}
+
+.word-input {
+  width: 100%;
+  padding: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: inherit;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  background: var(--cream-panel);
+  color: var(--ink);
+}
+
+.word-input:disabled {
+  opacity: 0.65;
+}
+
+.word-submit-btn {
+  padding: 22px;
+  font-size: 22px;
+  font-weight: 800;
+  border-radius: 20px;
+  color: white;
+  background: var(--teal);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.12);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.2s ease;
+}
+
+.word-submit-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.12);
+}
+
+.word-submit-btn:disabled {
+  opacity: 0.5;
+}
+
 .confirm {
   margin-top: 24px;
   text-align: center;

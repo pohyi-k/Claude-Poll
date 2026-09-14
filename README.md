@@ -1,4 +1,4 @@
-# Raise Your Hand — Live Poll
+# Icebreaker Poll
 
 A two-screen live polling app for the QIU CPD session icebreaker: a host screen for the projector, and a participant screen people open on their own phones.
 
@@ -26,10 +26,10 @@ Render supports WebSockets on its free tier, which Vercel's serverless functions
 
 ### Step 1 — Get the code onto GitHub
 ```bash
-cd raise-your-hand-poll
+cd icebreaker-poll
 git init
 git add .
-git commit -m "Raise Your Hand live poll app"
+git commit -m "Icebreaker poll app"
 ```
 Create a new empty repository on [github.com/new](https://github.com/new) (public or private, doesn't matter), then:
 ```bash
@@ -43,13 +43,13 @@ git push -u origin main
 2. Click **New +** → **Web Service**.
 3. Connect the GitHub repo you just pushed.
 4. Fill in:
-   - **Name**: anything, e.g. `raise-your-hand-poll`
+   - **Name**: anything, e.g. `icebreaker-poll`
    - **Runtime**: Node
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
    - **Instance Type**: Free
 5. Click **Create Web Service**. Render will build and deploy — takes 2-3 minutes.
-6. When it's live, Render gives you a public URL like `https://raise-your-hand-poll.onrender.com`.
+6. When it's live, Render gives you a public URL like `https://icebreaker-poll.onrender.com`.
 
 ### Step 3 — Test it
 - Open `https://<your-app>.onrender.com/host.html` on your laptop.
@@ -67,7 +67,7 @@ Render's free web services **spin down after ~15 minutes of inactivity** and tak
 
 ### Setup (run once)
 ```bash
-cd raise-your-hand-poll
+cd icebreaker-poll
 npm install
 ```
 
@@ -104,15 +104,31 @@ Participants on your local network should scan/visit:
 
 ## Editing the questions
 
-Edit `questions.json` — no code changes needed. Each entry needs a unique `id`, the question `text`, and a list of `options` (2 or more):
+Edit `questions.json` — no code changes needed. There are two question types:
+
+**Yes/No (or any multiple-choice):** needs a unique `id`, `type: "yesno"`, the question `text`, and a list of `options` (2 or more, shown as tappable buttons and a live results bar per option):
 
 ```json
 {
-  "id": "q4",
+  "id": "q5",
+  "type": "yesno",
   "text": "Your new question here",
   "options": ["Yes", "No"]
 }
 ```
+
+**Word cloud (open text):** needs a unique `id`, `type: "wordcloud"`, and the question `text` — no `options`. Participants get a single text box instead of buttons; the host screen shows a live word cloud sized by how often each word comes up:
+
+```json
+{
+  "id": "q6",
+  "type": "wordcloud",
+  "text": "Your open-ended prompt here"
+}
+```
+
+Word-cloud answers are trimmed, collapsed to a couple of words, and lowercased for grouping, so "Writing" and "writing" count as the same word on the cloud.
+
 Add, remove, or reorder entries freely. Restart the server (or redeploy) after editing so it picks up the change — votes are stored in memory and reset whenever the server restarts.
 
 ---

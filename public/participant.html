@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Raise Your Hand — Vote</title>
+<title>Icebreaker Poll — Vote</title>
 <link rel="stylesheet" href="shared.css">
 <link rel="stylesheet" href="participant.css">
 </head>
@@ -17,8 +17,21 @@
 
     <div class="options" id="options"></div>
 
-    <div class="confirm" id="confirm" hidden>✓ Your response was registered</div>
-    <div class="connection-note" id="connectionNote" hidden>Reconnecting…</div>
+    <form class="word-form" id="wordForm" hidden>
+      <div class="word-hint">✏️ One or two words is perfect — keep it snappy!</div>
+      <input
+        class="word-input"
+        id="wordInput"
+        type="text"
+        maxlength="40"
+        autocomplete="off"
+        placeholder="Type your answer…"
+      />
+      <button class="word-submit-btn" id="wordSubmitBtn" type="submit">Send it 🚀</button>
+    </form>
+
+    <div class="confirm" id="confirm" hidden>🎉 Nice! Your response is locked in</div>
+    <div class="connection-note" id="connectionNote" hidden>🔄 Reconnecting… hang tight!</div>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>

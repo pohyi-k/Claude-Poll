@@ -1,8 +1,8 @@
 {
-  "name": "raise-your-hand-poll",
+  "name": "icebreaker-poll",
   "version": "1.0.0",
   "private": true,
-  "description": "Live 'Raise Your Hand' polling app for in-person sessions — host screen + phone participant screen, real-time results.",
+  "description": "Live icebreaker polling app for in-person sessions — host screen + phone participant screen, real-time results.",
   "engines": {
     "node": ">=18"
   },
